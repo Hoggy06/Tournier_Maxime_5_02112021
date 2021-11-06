@@ -1,16 +1,10 @@
-
-
 fetch("http://localhost:3000/api/products")
-.then(function(response) {
-    return response.json
+.then((r) => {
+    return r.json();
 })
-.then(function(data) {
-    document
-    .getElementById("items")
-    .innerText = data.name;
+.then((data) => {
+    console.log(data)
 })
-.catch(function(error) {
+.catch((error) => {
     console.log(error)
-})
-
-
+});
