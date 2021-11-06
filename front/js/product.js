@@ -19,13 +19,27 @@ const search_params = new URLSearchParams(window.location.search);
       this.imageUrl = data.imageUrl;
       this.altTxt = data.altTxt;
     }
+  
+    
+
     kanapProduct() {
+
       document.getElementById("title").innerHTML += this.name;
       document.getElementById("price").innerHTML += this.price;
       document.getElementById("description").innerHTML += this.description;
-      document.getElementsByClassName("item__img").innerHTML += `<img src="${this.imageUrl}" alt="${this.altTxt}">`;
-      document.getElementById("colors").innerHTML += this.colors;
+
+      const img = document.createElement('img');
+      img.setAttribute("src", this.imageUrl);
+      img.setAttribute("alt", this.altTxt);
+
+      document.getElementsByClassName("item__img")[0].appendChild(img);
+      
+      for(let c of data.colors) {
+        document.getElementById("colors").innerHTML += `<option value="${c}">${c}</option>`;
+      }
     }
+
+   
   }
   const k = new kanap();
   k.kanapProduct();
