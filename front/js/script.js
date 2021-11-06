@@ -1,9 +1,9 @@
 fetch("http://localhost:3000/api/products")
 .then((r) => {
-    return r.json();
+    return r.json()
 })
 .then((data) => {
-    console.log(data)
+    document.getElementById("items").innerText.data.name[0]
 })
 .catch((error) => {
     console.log(error)
