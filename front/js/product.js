@@ -1,17 +1,18 @@
 
 const search_params = new URLSearchParams(window.location.search); 
-  const id = search_params.get('id');
+const id = search_params.get('id');
 
-  fetch(`http://localhost:3000/api/products/${id}`)
+fetch(`http://localhost:3000/api/products/${id}`)
 
 .then((response) => {
-    return response.json();
+  return response.json();
 })
  
 .then((data) => {
 
   class kanap {
-    constructor(colors, name, price, description, imageUrl, altTxt) {
+    constructor(id, colors, name, price, description, imageUrl, altTxt) {
+      this.id = data._id;
       this.colors = data.colors;
       this.name = data.name;
       this.price = data.price;
@@ -41,8 +42,10 @@ const search_params = new URLSearchParams(window.location.search);
 
    
   }
+
   const k = new kanap();
   k.kanapProduct();
+
 })
 
 .catch((error) => {

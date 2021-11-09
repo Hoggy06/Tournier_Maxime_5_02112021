@@ -7,8 +7,8 @@ fetch("http://localhost:3000/api/products")
 })
  
 .then((data) => {
-    for(let d in data) {
 
+    for(let d in data) {
         const htmlContent = `
             <a href="./product.html?id=${data[d]._id}">
                 <article>
@@ -19,6 +19,7 @@ fetch("http://localhost:3000/api/products")
             </a>`;
     document.getElementById("items").innerHTML += htmlContent;
     }
+    
 })
 
 .catch((error) => {
