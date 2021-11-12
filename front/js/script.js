@@ -1,5 +1,4 @@
-import "./product.js"
-import "./cart.js"
+import "./product.js";
 
 fetch("http://localhost:3000/api/products")
   .then((response) => {
@@ -21,20 +20,22 @@ fetch("http://localhost:3000/api/products")
   })
 
   .catch((error) => {
+
     const errorAlert = () => {
       const articleError = document.createElement("article");
       const messageError = document.createElement("p");
-
+  
       articleError.classList.add("articleError");
       messageError.classList.add("messageError");
-
+  
       articleError.style.backgroundColor = "#AD1B1B";
       messageError.style.color = "white";
       messageError.style.fontWeight = "bold";
-
+  
       document.getElementById("items").appendChild(articleError);
-
+  
       return (articleError.appendChild(messageError).innerHTML += error);
     };
-    errorAlert();
+    
+    errorAlert()
   });
