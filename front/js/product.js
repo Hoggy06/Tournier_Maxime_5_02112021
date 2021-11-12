@@ -29,10 +29,8 @@ fetch(`http://localhost:3000/api/products/${id}`)
 
         document.getElementsByClassName("item__img")[0].appendChild(img);
 
-        for (let c of data.colors) {
-          document.getElementById("colors").innerHTML += `<option value="${c}">${c}</option>`;
-        
-          //document.getElementsByTagName("option")[c].classList.add("colorsOptionValue");
+        for (let c in this.colors) {
+          document.getElementById("colors").innerHTML += `<option value="${this.colors[c]}">${this.colors[c]}</option>`;
           
         }
       }
