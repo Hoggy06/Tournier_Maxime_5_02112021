@@ -1,39 +1,23 @@
-fetch("http://localhost:3000/api/products")
-  .then((response) => {
+fetch("http://localhost:3000/api/products") // On appel l'api
+
+  .then((response) => { // On vérifie le status de la réponse de l'api
     return response.json();
   })
 
-  .then((data) => {
-    for (let d in data) {
+  .then((data) => { // On récupère les éléments de l'api
+    for (let d in data) { // On parcours les objets présents dans l'api
       const htmlContent = `
             <a href="./product.html?id=${data[d]._id}">
                 <article>
                     <img src="${data[d].imageUrl}" alt="${data[d].altTxt}">
-                    <h3 class="productName">${da[d].me}</h3>
+                    <h3 class="productName">${data[d].name}</h3>
                     <p class="productDescription">${data[d].description}</p>
                 </article>
             </a>`;
-      document.getElementById("items").innerHTML += htmlContent;
+      document.getElementById("items").innerHTML += htmlContent; // On affiche le contenu sur la page
     }
   })
 
-  .catch((error) => {
-    console.log(error.message);
-    /*const errorAlert = () => {
-      const articleError = document.createElement("article");
-      const messageError = document.createElement("p");
-
-      articleError.classList.add("articleError");
-      messageError.classList.add("messageError");
-
-      articleError.style.backgroundColor = "#AD1B1B";
-      messageError.style.color = "white";
-      messageError.style.fontWeight = "bold";
-
-      document.getElementById("items").appendChild(articleError);
-
-      return (articleError.appendChild(messageError).innerHTML += error);
-    };
-
-    errorAlert();*/
+  .catch((error) => { // L'erreur est traitée
+    alert("Erreur : " + error);
   });
