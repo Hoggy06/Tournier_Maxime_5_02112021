@@ -1,13 +1,16 @@
-const search_params = new URLSearchParams(window.location.search);
+
+
+const search_params = new URLSearchParams(window.location.search); // On récupère l'id passé en paramètre d'URL
 const id = search_params.get("id");
 
-fetch(`http://localhost:3000/api/products/${id}`)
-  .then((response) => {
+fetch(`http://localhost:3000/api/products/${id}`) // On appel l'api
+
+  .then((response) => { // Vérification du status de la réponse
     return response.json();
   })
 
   .then((data) => {
-    class kanap {
+    class Kanap { // Création d'une classe pour chaque canapé
       constructor(id, colors, name, price, description, imageUrl, altTxt) {
         this.id = data._id;
         this.colors = data.colors;
@@ -18,7 +21,7 @@ fetch(`http://localhost:3000/api/products/${id}`)
         this.altTxt = data.altTxt;
       }
 
-      kanapProduct() {
+      kanapProduct() { // On récupère les objets pour ensuite les afficher sur la page
         document.getElementById("title").innerHTML += this.name;
         document.getElementById("price").innerHTML += this.price;
         document.getElementById("description").innerHTML += this.description;
@@ -37,43 +40,78 @@ fetch(`http://localhost:3000/api/products/${id}`)
       }
     }
 
-    const kanapElements = new kanap();
+    const kanapElements = new Kanap(); // On instancie la classe et on l'affiche
     kanapElements.kanapProduct();
 
     const addToCart = document.getElementById("addToCart");
 
-    addToCart.addEventListener("click", function (e) {
-
+    addToCart.addEventListener("click", function (e) { // On ecoute l'évènement 
+      
       e.preventDefault();
 
+      // On récupère les données des champs du formulaire 
       const list = document.getElementById("colors");
-
       const quantity = document.getElementById("quantity");
 
-      const objectProduct = [kanapElements.id, list.value, quantity.value];
+      // On recupèrera les différents produits dans ce tableau
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-      const l = localStorage.setItem(kanapElements.name, JSON.stringify(objectProduct));
-      
+      // Les canapés sont regroupés dans cette variable à l'aide de la classe Kanap 
+      const objectProduct = {
+        id: id,
+        name: kanapElements.name,
+        price: kanapElements.price,
+        description: kanapElements.description,
+        imageUrl: kanapElements.imageUrl,
+        altTxt: kanapElements.altTxt,
+        color: list.value,
+        quantity: parseInt(quantity.value, 10),
+      };
 
+      // Création de variable pour vérifier si un canapé est présent ou non dans le panier
+      let isAlreadyPresent = false;
+      let index;
+
+      // Si le canapé est présent dans le panier avec la meme couleur
+      for (let p of cart) {
+        switch (p.color) {
+          case objectProduct.color:
+            isAlreadyPresent = true;
+            index = cart.indexOf(p);
+        }
+      }
+
+      if (list.value != "" && quantity.value != 0) { // On vérifie que les données ne sont pas vides
+        // Si le canapé est présent dans le panier et est de la meme couleur alors on ajoute que la quantité
+        if (isAlreadyPresent) {
+
+          // On stocke la donnée dans le localStorage
+          cart[index].quantity = +cart[index].quantity + +objectProduct.quantity;
+          localStorage.setItem("cart", JSON.stringify(cart));
+
+          // On avertie l'utilisateur de son action et on redirige vers la page panier
+          if (window.confirm(objectProduct.name + " " + list.value + " a bien été ajouté. Souhaitez vous consulter votre panier ?")) {
+            window.location.href = "cart.html";
+          }
+
+        } else {
+
+          // Sinon on ajoute un nouveau canapé
+          cart.push(objectProduct);
+          localStorage.setItem("cart", JSON.stringify(cart));
+
+          // On avertie l'utilisateur de son action et on redirige vers la page panier
+          if (window.confirm(objectProduct.name + " " + list.value + " a bien été ajouté. Souhaitez vous consulter votre panier ?")) {
+            window.location.href = "cart.html";
+          }
+
+        }
+      } else {
+        alert("Veuillez sélectioner une couleur et une quantité supérieur à 0 !");
+      }
     });
   })
-
+// On affiche l'erreur s'il y en a une
   .catch((error) => {
-    const errorAlert = () => {
-      const articleError = document.createElement("article");
-      const messageError = document.createElement("p");
-
-      articleError.classList.add("articleError");
-      messageError.classList.add("messageError");
-
-      articleError.style.backgroundColor = "#AD1B1B";
-      messageError.style.color = "white";
-      messageError.style.fontWeight = "bold";
-
-      document.getElementById("items").appendChild(articleError);
-
-      return (articleError.appendChild(messageError).innerHTML += error);
-    };
-
-    errorAlert();
+    alert("Erreur : " + error);
   });
