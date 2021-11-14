@@ -24,5 +24,5 @@ fetch("http://localhost:3000/api/products") // On appel l'api
                 </article>
             </a>`;
       document.getElementById("items").innerHTML += htmlContent; // On affiche le contenu sur la page
-    }
+    } 
   }
