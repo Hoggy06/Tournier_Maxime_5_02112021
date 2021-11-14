@@ -1,6 +1,7 @@
 import { price, totalQuantity } from "./functions.js"; 
 
 export const cart = JSON.parse(localStorage.getItem("cart")); // On récupère le localStorage utilisé dans la page produit
+console.log(cart);
 
 for (let c of cart) { // On parcours le tableau et on affiche les données
 

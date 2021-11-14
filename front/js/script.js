@@ -5,6 +5,15 @@ fetch("http://localhost:3000/api/products") // On appel l'api
   })
 
   .then((data) => { // On récupère les éléments de l'api
+    cards(data);
+  })
+
+  .catch((error) => { // L'erreur est traitée
+    alert("Erreur : " + error);
+  });
+
+
+  const cards = (data) => {
     for (let d in data) { // On parcours les objets présents dans l'api
       const htmlContent = `
             <a href="./product.html?id=${data[d]._id}">
@@ -16,8 +25,4 @@ fetch("http://localhost:3000/api/products") // On appel l'api
             </a>`;
       document.getElementById("items").innerHTML += htmlContent; // On affiche le contenu sur la page
     }
-  })
-
-  .catch((error) => { // L'erreur est traitée
-    alert("Erreur : " + error);
-  });
+  }
