@@ -1,3 +1,5 @@
+
+
 fetch("http://localhost:3000/api/products") // On appel l'api
 
   .then((response) => { // On vérifie le status de la réponse de l'api
