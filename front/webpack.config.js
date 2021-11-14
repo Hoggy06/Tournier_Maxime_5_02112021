@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
   mode: "production",
   entry: {
-    app: "/js/script.js"
+    app: ["/js/script.js", "/js/product.js", "/js/cart.js"]
   },
   output: {
     filename: "app.bundle.js",
