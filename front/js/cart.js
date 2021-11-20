@@ -1,12 +1,11 @@
-import { price, totalQuantity } from "./functions.js";
+import { price, totalQuantity, addProduct, deleteItem } from "./functions.js"; 
 
 export const cart = JSON.parse(localStorage.getItem("cart")); // On récupère le localStorage utilisé dans la page produit
-console.log(cart);
 
-for (let c of cart) {
-  // On parcours le tableau et on affiche les données
 
-  const cartContent = `
+for (let c of cart) { // On parcours le tableau et on affiche les données
+
+  const htmlContent = `
   <article class="cart__item" data-id="${c.id}">
   <div class="cart__item__img">
     <img src="${c.imageUrl}" alt="${c.altTxt}">
@@ -29,27 +28,26 @@ for (let c of cart) {
   </div>
 </article>`;
 
-  document.getElementById("cart__items").innerHTML += cartContent;
+
+
+  document.getElementById("cart__items").innerHTML += htmlContent;
+
+ 
 
 }
 
-const deleteItem = document.querySelector(".deleteItem");
-//supprimer un produit
-deleteItem.addEventListener("click", function(e) {
-  const index = e.target.getAttribute("data-index");
-        if (cart[index] > 1) {
-            cart[index]--;
-        } else {
-            cart.splice(index, 1);
-        }
+const add = document.getElementsByClassName("itemQuantity");
+for (let a of add) {
+    a.addEventListener("click", addProduct);
+}
 
-  localStorage.removeItem("cart");
-  location.reload();
-});
+const deleteProduct = document.getElementsByClassName("deleteItem");
+for (let d of deleteProduct) {
+    d.addEventListener("click", deleteItem);
+}
 
-// Affiche la quantité total des articles dans le panier
 document.getElementById("totalQuantity").innerHTML += totalQuantity();
-// Affiche le prix total de la commande
+
 document.getElementById("totalPrice").innerHTML += price();
 
 

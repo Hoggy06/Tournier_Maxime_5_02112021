@@ -50,6 +50,7 @@ fetch("http://localhost:3000/api/products/" + id) // On appel l'api
     // On ecoute l'évènement
     addToCart.addEventListener("click", function (e) {
       e.preventDefault();
+      
 
       // On cible les champs du formulaire
       const list = document.getElementById("colors");
@@ -92,7 +93,7 @@ fetch("http://localhost:3000/api/products/" + id) // On appel l'api
           cart[index].quantity =
             +cart[index].quantity + +objectProduct.quantity;
           localStorage.setItem("cart", JSON.stringify(cart));
-          //localStorage.clear();
+         
 
           // On avertie l'utilisateur de son action et on redirige vers la page panier
           if (window.confirm(`${objectProduct.name} ${objectProduct.color} a bien été ajouté. Souhaitez vous consulter votre panier ?`)) {
@@ -102,7 +103,7 @@ fetch("http://localhost:3000/api/products/" + id) // On appel l'api
           // Sinon on ajoute un nouveau canapé
           cart.push(objectProduct);
           localStorage.setItem("cart", JSON.stringify(cart));
-          //localStorage.clear();
+         
 
           // On avertie l'utilisateur de son action et on redirige vers la page panier
           if (window.confirm(`${objectProduct.name} ${objectProduct.color} a bien été ajouté. Souhaitez vous consulter votre panier ?`)) {
