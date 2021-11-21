@@ -58,6 +58,7 @@ fetch("http://localhost:3000/api/products/" + id) // On appel l'api
 
       // On recupèrera les différents produits dans ce tableau
       const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      //localStorage.clear();
 
       // Les canapés sont regroupés dans cette variable à l'aide de la classe Kanap
       const objectProduct = {
