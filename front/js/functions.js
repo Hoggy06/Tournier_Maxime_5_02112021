@@ -20,7 +20,7 @@ export function totalQuantity() {
 
  
   export function addProduct(event) {
-    const index = event.target.getAttribute("data-index");
+    const index = event.target.getAttribute("data-id");
    
       cart[index]++;
  
@@ -33,14 +33,18 @@ export function totalQuantity() {
 
 
 export function deleteItem(event) {
-  const index = event.target.getAttribute("data-index");
-  if (cart[index] > 1) {
-      cart[index]--;
-  } else {
-      cart.splice(index, 1);
-  }
+  
+  for(let c of cart) {
+
+    const index = event.target.getAttribute("data-id");
+  
+      cart.splice(index, 0);
+      console.log(index);
+
   localStorage.setItem("cart", JSON.stringify(cart));
-  location.reload();
+  //location.reload();
+
+}
 }
 
 
