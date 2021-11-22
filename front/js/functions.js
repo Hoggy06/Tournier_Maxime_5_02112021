@@ -1,52 +1,103 @@
+// On importe la variable cart qui contient le localStorage
 import { cart } from "./cart.js";
 
+// Fonction qui retourne le prix totale de la commande
+export function totalPrice() {
 
+  // On initialise la variable
+  let price = 0;
 
-export function price() {
-  let total = 0;
-  cart.forEach((obj) => {
-    total += obj.price * obj.quantity;
-  });
-  return total;
+  // On boucle sur la variable mit dans le localStorage
+  for(let p of cart) {
+    // Petite opération arithmétique de base 
+    price += p.price * p.quantity;
+  }
+
+// On retourne le résultat
+  return price;
 }
 
+// Fonction qui retourne la quantité totale de la commande
 export function totalQuantity() {
-  let totalQuantity = 0;
-  cart.forEach((obj) => {
-    totalQuantity += obj.quantity;
-  });
-  return totalQuantity;
+
+  // On initialise la variable
+  let totalItems = 0;
+
+  // On boucle sur la variable mit dans le localStorage
+  for (let t in cart) {
+    // On utilise Number pour etre sur que l'élément soit un nombre
+    // Puis on incrémente
+    const newQuantity = Number(cart[t].quantity);
+    totalItems += newQuantity;
+  }
+
+    // On cible l'id totalQuantity et on retourne la valeur
+    const totalQuantity = document.getElementById('totalQuantity');
+    totalQuantity.textContent = totalItems;
+
+    return totalItems;
 }
 
- 
-  export function addProduct(event) {
-    const index = event.target.getAttribute("data-id");
-   
-      cart[index]++;
- 
-      cart.splice(index, 0);
-  
+// Fonction qui modifie la quantité
+export function changeQuantity() {
 
-    localStorage.setItem("cart", JSON.stringify(cart));
-    location.reload();
+  // On cible la classe itemQuantity
+  const changeItemQuantity = document.getElementsByClassName("itemQuantity");
+
+  // On boucle sur la variable
+  for (let c = 0; c < changeItemQuantity.length; c++) {
+
+    // On écoute l'input
+    changeItemQuantity[c].addEventListener("change", function (e) {
+
+      e.preventDefault();
+
+      // On initialise une nouvelle variable qui contient la valeur de la quantité 
+      let newQuantity = changeItemQuantity[c].value;
+
+      // On créer un nouvel objet avec la nouvelle quantité modifiée
+      const newLocalStorage = {
+        id: cart[c]._id,
+        description: cart[c].description,
+        imageUrl: cart[c].imageUrl,
+        altTxt: cart[c].altTxt,
+        name: cart[c].name,
+        color: cart[c].color,
+        price: cart[c].price,
+        quantity: newQuantity, 
+      };
+
+      // L'objet cart est mis à jour et est enregistré dans le localStorage 
+      cart[c] = newLocalStorage;
+      localStorage.setItem("cart", JSON.stringify(cart));
+      location.reload();
+    });
+  }
 }
 
+// Fonction qui supprime un canapé de la commande
+export function deleteItem() {
 
-export function deleteItem(event) {
-  
-  for(let c of cart) {
+  // On cible la classe deleteItem
+  const deleteItem = document.getElementsByClassName("deleteItem");
 
-    const index = event.target.getAttribute("data-id");
-  
-      cart.splice(index, 0);
-      console.log(index);
+  // On boucle sur cette variable
+  for (let d = 0; d < deleteItem.length; d++) {
 
-  localStorage.setItem("cart", JSON.stringify(cart));
-  //location.reload();
+    // On écoute le boutton supprimer
+    deleteItem[d].addEventListener("click", (e) => {
+      e.preventDefault();
 
+      // On créer de nouvelles variables qui permettent de cibler l'id et la couleur
+      let deleteId = cart[d].id;
+      let deleteColor = cart[d].color;
+
+      // On filtre les deux variables
+      let newCart = cart.filter((elt) => elt.id !== deleteId || elt.color !== deleteColor);
+
+      // On met à jour notre localStorage  
+      localStorage.setItem("cart", JSON.stringify(newCart));
+      location.reload();
+    });
+  }
 }
-}
-
-
-
-

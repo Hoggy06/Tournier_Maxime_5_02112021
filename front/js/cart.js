@@ -1,4 +1,4 @@
-import { price, totalQuantity, addProduct, deleteItem } from "./functions.js"; 
+import { totalPrice, totalQuantity, changeQuantity, deleteItem } from "./functions.js"; 
 
 export const cart = JSON.parse(localStorage.getItem("cart")); // On récupère le localStorage utilisé dans la page produit
 console.log(cart);
@@ -28,27 +28,23 @@ for (let c of cart) { // On parcours le tableau et on affiche les données
   </div>
 </article>`;
 
-
-
   document.getElementById("cart__items").innerHTML += htmlContent;
 
- 
+
 
 }
 
-const add = document.getElementsByClassName("itemQuantity");
-for (let a of add) {
-    a.addEventListener("click", addProduct);
-}
+// Import de la fonction changeQuantity
+changeQuantity();
 
-const deleteProduct = document.getElementsByClassName("deleteItem");
-for (let d of deleteProduct) {
-    d.addEventListener("click", deleteItem);
-}
+// Import de la fonction deleteItem
+deleteItem();
 
+// Affiche la quantité totale
 document.getElementById("totalQuantity").innerHTML += totalQuantity();
 
-document.getElementById("totalPrice").innerHTML += price();
+// Affiche le prix totale
+document.getElementById("totalPrice").innerHTML += totalPrice();
 
 
 
