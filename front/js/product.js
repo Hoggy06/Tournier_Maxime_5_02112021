@@ -62,7 +62,7 @@ fetch("http://localhost:3000/api/products/" + id) // On appel l'api
 
       // Les canapés sont regroupés dans cette variable à l'aide de la classe Kanap
       const objectProduct = {
-        id: id,
+        id: kanapElements.id,
         name: kanapElements.name,
         price: kanapElements.price,
         description: kanapElements.description,
