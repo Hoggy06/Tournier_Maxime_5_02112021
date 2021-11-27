@@ -39,8 +39,8 @@ for (let c of cart) {
 // Import de la fonction changeQuantity
 changeQuantity();
 
-  // Import de la fonction deleteItem
-  deleteItem();
+// Import de la fonction deleteItem
+deleteItem();
 
 // Affiche la quantité totale
 totalQuantity();
