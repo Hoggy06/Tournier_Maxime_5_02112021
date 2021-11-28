@@ -137,11 +137,11 @@ fetch("http://localhost:3000/api/products/order", {
 })
 
 .then((data) => {
-  console.log(data);
   localStorage.setItem("orderId", data.orderId);
-  if(validForm()) {
+  console.log(data);
+  /*if(validForm()) {
     window.location.href = `confirmation.html?id=${data.orderId}`;
-  }
+  }*/
 })
 
 .catch((error) => {
