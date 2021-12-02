@@ -1,15 +1,21 @@
+// Importation des différentes fonctions
 import {
   totalPrice,
   totalQuantity,
   changeQuantity,
   deleteItem,
+  testFirstName,
+  testLastName,
+  testAddress,
+  testCity,
+  testEmail,
 } from "./functions.js";
 
-export const cart = JSON.parse(localStorage.getItem("cart")); // On récupère le localStorage utilisé dans la page produit
+// On récupère le localStorage utilisé dans la page produit
+export const cart = JSON.parse(localStorage.getItem("cart"));
 
+// On parcours le tableau et on affiche les données
 for (let c of cart) {
-  // On parcours le tableau et on affiche les données
-
   const htmlContent = `
   <article class="cart__item" data-id="${c.id}">
   <div class="cart__item__img">
@@ -36,10 +42,10 @@ for (let c of cart) {
   document.getElementById("cart__items").innerHTML += htmlContent;
 }
 
-// Import de la fonction changeQuantity
+// Met à jour la quantité totale
 changeQuantity();
 
-// Import de la fonction deleteItem
+// Supprime un produit du panier
 deleteItem();
 
 // Affiche la quantité totale
@@ -48,128 +54,95 @@ totalQuantity();
 // Affiche le prix totale
 totalPrice();
 
-function form() {
-  const order = document.getElementById("order");
-  order.addEventListener("click", function (e) {
-    //submit
-    e.preventDefault();
+// Vérifie le contenu du champ Prénom
+testFirstName();
 
-    // Création de l'objet contact
-    const contact = {
-      firstName: document.getElementById("firstName").value,
-      lastName: document.getElementById("lastName").value,
-      address: document.getElementById("address").value,
-      city: document.getElementById("city").value,
-      email: document.getElementById("email").value,
-    };
+// Vérifie le contenu du champ Nom
+testLastName();
 
-    function testFirstName() {
-      const validFisrtName = contact.firstName;
-      if (/^[A-Za-z]{3,20}$/.test(validFisrtName)) {
-        return true;
-      } else {
-        let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
-        firstNameErrorMsg.textContent =
-          "Merci de vérifier votre prénom, 3 caractères minimum requis avec des lettres uniquement";
-      }
-    }
+// Vérifie le contenu du champ Adresse
+testAddress();
 
-    function testLastName() {
-      const validLastName = contact.lastName;
-      if (/^[A-Za-z]{3,20}$/.test(validLastName)) {
-        return true;
-      } else {
-        let lastNameErrorMsg = document.getElementById("lastNameErrorMsg");
-        lastNameErrorMsg.textContent =
-          "Merci de vérifier votre nom, 3 caractères minimum requis avec des lettres uniquement";
-      }
-    }
+// Vérifie le contenu du champ Ville
+testCity();
 
-    function testAddress() {
-      const validAddress = contact.address;
-      if (/^[a-zA-Z0-9-\s]+$/.test(validAddress)) {
-        return true;
-      } else {
-        let addressErrorMsg = document.getElementById("addressErrorMsg");
-        addressErrorMsg.textContent =
-          "Merci de vérifier votre addresse, caractères alphanumériques autorisés";
-      }
-    }
+// Vérifie le contenu du champ Email
+testEmail();
 
-    function testCity() {
-      const validCity = contact.city;
-      if (/^[a-zA-Z0-9-\s]+$/.test(validCity)) {
-        return true;
-      } else {
-        let cityErrorMsg = document.getElementById("cityErrorMsg");
-        cityErrorMsg.textContent =
-          "Merci de vérifier votre ville, 3 caractères minimum requis avec des lettres uniquement";
-      }
-    }
+// On écoute l'évènement au clique du formulaire
+const order = document.getElementById("order");
+order.addEventListener("click", function (e) {
+  e.preventDefault();
 
-    function testEmail() {
-      const validEmail = contact.email;
-      if (
-        /^([a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/.test(validEmail)
-      ) {
-        return true;
-      } else {
-        let emailErrorMsg = document.getElementById("emailErrorMsg");
-        emailErrorMsg.textContent = "Erreur email non valide !";
-      }
-    }
+  // Création de l'objet contact
+  const contact = {
+    firstName: testFirstName(),
+    lastName: testLastName(),
+    address: testAddress(),
+    city: testCity(),
+    email: testEmail(),
+  };
 
-    function validForm() {
-      if (
-        testFirstName() &&
-        testLastName() &&
-        testAddress() &&
-        testCity() &&
-        testEmail()
-      ) {
-        localStorage.setItem("contact", JSON.stringify(contact));
-        return true;
+  // Fonction qui vérifie que les données sont valides
+  function validForm() {
+    if (
+      testFirstName().length > 3 &&
+      testFirstName().length < 20 &&
+      testLastName().length > 3 &&
+      testLastName().length < 20 &&
+      testAddress() &&
+      testCity() &&
+      testEmail()
+    ) {
+      localStorage.setItem("contact", JSON.stringify(contact));
+      return true;
+    } else {
+      if (testFirstName().length < 3 || testFirstName().length > 20) {
+        alert("Le champ Prénom est mal renseigné");
+      } else if (testLastName().length < 3 || testLastName().length > 20) {
+        alert("Le champ Nom est mal renseigné");
       } else {
         alert("Merci de vérifier le contenu de votre formulaire");
       }
     }
+  }
 
-    validForm();
-    // product-ID array
+  // Création de l'array products qui contient les produits de la commande
+  let products = [];
+  for (let i of cart) {
+    products.push(i.id);
+  }
 
-    let products = [];
-    for (let i of cart) {
-      products.push(i.id);
-    }
+  // Création de l'objet send qui contient l'objet contact (données personnelles de l'utilisateur) et l'array products (produits de la commande)
+  let send = {
+    contact: contact,
+    products: products,
+  };
 
-    let send = {
-      contact: contact,
-      products: products,
-    };
+  // Variables qui contient les options de fetch
+  const options = {
+    method: "POST",
+    body: JSON.stringify(send),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
 
-    const options = {
-      method: "POST",
-      body: JSON.stringify(send),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    fetch("http://localhost:3000/api/products/order", options)
-      .then((response) => {
-        return response.json();
-      })
-
-      .then((data) => {
-        if (validForm()) {
-          window.location.href = `confirmation.html?orderId=${data.orderId}`;
-        }
-      })
-
-      .catch((error) => {
-        alert(error);
-      });
-  });
-}
-
-form();
+  // On appel l'api
+  fetch("http://localhost:3000/api/products/order", options)
+    // Vérification du status de la réponse
+    .then((response) => {
+      return response.json();
+    })
+    // Envoie des données à la page confirmation
+    .then((data) => {
+      if (validForm()) {
+        //window.location.href = `confirmation.html?orderId=${data.orderId}`;
+        console.log(contact);
+      }
+    })
+    // Retourne une erreur s'il y en a une
+    .catch((error) => {
+      alert(error);
+    });
+});
