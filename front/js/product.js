@@ -1,14 +1,15 @@
-const search_params = new URLSearchParams(window.location.search); // On récupère l'id passé en paramètre d'URL
+// On récupère l'id passé en paramètre d'URL
+const search_params = new URLSearchParams(window.location.search);
 const id = search_params.get("id");
 
-fetch("http://localhost:3000/api/products/" + id) // On appel l'api
+// On appel l'api
+fetch("http://localhost:3000/api/products/" + id)
+  // Vérification du status de la réponse
   .then((response) => {
-    // Vérification du status de la réponse
     return response.json();
   })
-
+  // Création d'une classe pour chaque canapé
   .then((data) => {
-    // Création d'une classe pour chaque canapé
     class Kanap {
       constructor(id, colors, name, price, description, imageUrl, altTxt) {
         this.id = data._id;
@@ -43,9 +44,8 @@ fetch("http://localhost:3000/api/products/" + id) // On appel l'api
     const kanapElements = new Kanap();
     kanapElements.kanapProduct();
 
-    const addToCart = document.getElementById("addToCart");
-
     // On ecoute l'évènement
+    const addToCart = document.getElementById("addToCart");
     addToCart.addEventListener("click", function (e) {
       e.preventDefault();
 
@@ -55,7 +55,6 @@ fetch("http://localhost:3000/api/products/" + id) // On appel l'api
 
       // On recupèrera les différents produits dans ce tableau
       const cart = JSON.parse(localStorage.getItem("cart")) || [];
-      //localStorage.clear();
 
       // Les canapés sont regroupés dans cette variable à l'aide de la classe Kanap
       const objectProduct = {
@@ -66,7 +65,7 @@ fetch("http://localhost:3000/api/products/" + id) // On appel l'api
         imageUrl: kanapElements.imageUrl,
         altTxt: kanapElements.altTxt,
         color: list.value,
-        quantity: Number(quantity.value), //number ?
+        quantity: Number(quantity.value),
       };
 
       // Création de variable pour vérifier si un canapé est présent ou non dans le panier
@@ -82,10 +81,9 @@ fetch("http://localhost:3000/api/products/" + id) // On appel l'api
             break;
         }
       }
-
+      /*On vérifie que les données ne sont pas vides
+      Si le canapé est présent dans le panier et est de la meme couleur alors on ajoute que la quantité*/
       if (list.value !== "" && quantity.value !== 0) {
-        // On vérifie que les données ne sont pas vides
-        // Si le canapé est présent dans le panier et est de la meme couleur alors on ajoute que la quantité
         if (isAlreadyPresent) {
           // On stocke la donnée dans le localStorage
           cart[index].quantity =
