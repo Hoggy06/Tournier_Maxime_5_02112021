@@ -86,10 +86,8 @@ order.addEventListener("click", function (e) {
   // Fonction qui vérifie que les données sont valides
   function validForm() {
     if (
-      testFirstName().length > 3 &&
-      testFirstName().length < 20 &&
-      testLastName().length > 3 &&
-      testLastName().length < 20 &&
+      testFirstName() &&
+      testLastName() &&
       testAddress() &&
       testCity() &&
       testEmail()
@@ -97,13 +95,8 @@ order.addEventListener("click", function (e) {
       localStorage.setItem("contact", JSON.stringify(contact));
       return true;
     } else {
-      if (testFirstName().length < 3 || testFirstName().length > 20) {
-        alert("Le champ Prénom est mal renseigné");
-      } else if (testLastName().length < 3 || testLastName().length > 20) {
-        alert("Le champ Nom est mal renseigné");
-      } else {
-        alert("Merci de vérifier le contenu de votre formulaire");
-      }
+      alert("Merci de vérifier le contenu de votre formulaire");
+      return;
     }
   }
 
@@ -137,8 +130,7 @@ order.addEventListener("click", function (e) {
     // Envoie des données à la page confirmation
     .then((data) => {
       if (validForm()) {
-        //window.location.href = `confirmation.html?orderId=${data.orderId}`;
-        console.log(contact);
+        window.location.href = `confirmation.html?orderId=${data.orderId}`;
       }
     })
     // Retourne une erreur s'il y en a une
