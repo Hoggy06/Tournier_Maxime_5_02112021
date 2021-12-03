@@ -13,8 +13,11 @@ export function totalPrice() {
     price += p.price * p.quantity;
   }
 
-// On retourne le résultat
-  return price;
+// On cible l'id totalPrice et on retourne la valeur
+const totalPrice = document.getElementById('totalPrice');
+totalPrice.textContent = price;
+
+return price;
 }
 
 // Fonction qui retourne la quantité totale de la commande
@@ -57,7 +60,7 @@ export function changeQuantity() {
 
       // On créer un nouvel objet avec la nouvelle quantité modifiée
       const newLocalStorage = {
-        id: cart[c]._id,
+        id: cart[c].id,
         description: cart[c].description,
         imageUrl: cart[c].imageUrl,
         altTxt: cart[c].altTxt,
@@ -70,8 +73,14 @@ export function changeQuantity() {
       // L'objet cart est mis à jour et est enregistré dans le localStorage 
       cart[c] = newLocalStorage;
       localStorage.setItem("cart", JSON.stringify(cart));
-      location.reload();
+
+      // On affiche le prix et la quantité en meme temps que la modification du panier
+      totalPrice();
+      totalQuantity();
+
+      
     });
+
   }
 }
 
@@ -97,7 +106,8 @@ export function deleteItem() {
 
       // On met à jour notre localStorage  
       localStorage.setItem("cart", JSON.stringify(newCart));
-      location.reload();
+      newCart;
     });
+
   }
 }

@@ -1,5 +1,3 @@
-
-
 const search_params = new URLSearchParams(window.location.search); // On récupère l'id passé en paramètre d'URL
 const id = search_params.get("id");
 
@@ -50,7 +48,6 @@ fetch("http://localhost:3000/api/products/" + id) // On appel l'api
     // On ecoute l'évènement
     addToCart.addEventListener("click", function (e) {
       e.preventDefault();
-      
 
       // On cible les champs du formulaire
       const list = document.getElementById("colors");
@@ -62,14 +59,14 @@ fetch("http://localhost:3000/api/products/" + id) // On appel l'api
 
       // Les canapés sont regroupés dans cette variable à l'aide de la classe Kanap
       const objectProduct = {
-        id: id,
+        id: kanapElements.id,
         name: kanapElements.name,
         price: kanapElements.price,
         description: kanapElements.description,
         imageUrl: kanapElements.imageUrl,
         altTxt: kanapElements.altTxt,
         color: list.value,
-        quantity: Number(quantity.value) //number ?
+        quantity: Number(quantity.value), //number ?
       };
 
       // Création de variable pour vérifier si un canapé est présent ou non dans le panier
@@ -94,20 +91,26 @@ fetch("http://localhost:3000/api/products/" + id) // On appel l'api
           cart[index].quantity =
             +cart[index].quantity + +objectProduct.quantity;
           localStorage.setItem("cart", JSON.stringify(cart));
-         
 
           // On avertie l'utilisateur de son action et on redirige vers la page panier
-          if (window.confirm(`${objectProduct.name} ${objectProduct.color} a bien été ajouté. Souhaitez vous consulter votre panier ?`)) {
+          if (
+            window.confirm(
+              `${objectProduct.name} ${objectProduct.color} a bien été ajouté. Souhaitez vous consulter votre panier ?`
+            )
+          ) {
             window.location.href = "cart.html";
           }
         } else {
           // Sinon on ajoute un nouveau canapé
           cart.push(objectProduct);
           localStorage.setItem("cart", JSON.stringify(cart));
-         
 
           // On avertie l'utilisateur de son action et on redirige vers la page panier
-          if (window.confirm(`${objectProduct.name} ${objectProduct.color} a bien été ajouté. Souhaitez vous consulter votre panier ?`)) {
+          if (
+            window.confirm(
+              `${objectProduct.name} ${objectProduct.color} a bien été ajouté. Souhaitez vous consulter votre panier ?`
+            )
+          ) {
             window.location.href = "cart.html";
           }
         }
