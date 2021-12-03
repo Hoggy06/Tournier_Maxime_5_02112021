@@ -100,19 +100,26 @@ export function testFirstName() {
   // On accepte les minuscules, majuscules, les espaces et les tirets, chaine entre 3 et 20 caractères
   let regexFirstName = /^[a-zA-Z\s-]{3,20}$/;
 
-  firstName.addEventListener("input", function () {
-    // Si la regex est valide le message de vérifcation est vide
-    if (regexFirstName.test(firstName.value)) {
-      let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
-      firstNameErrorMsg.innerText = "";
+  firstName.addEventListener("change", function () {
+    // Si les conditions sont valides == OK
+    if (
+      regexFirstName.test(firstName.value) &&
+      firstName.value.length > 3 &&
+      firstName.value.length < 20 &&
+      firstName.value !== ""
+    ) {
+      return firstName.value;
       // Sinon on avertit l'utilisateur
     } else {
       let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
       firstNameErrorMsg.innerText =
         "Merci de vérifier votre prénom, 3 caractères minimum requis avec des lettres uniquement";
+      return;
     }
   });
-  return firstName.value;
+  if (regexFirstName.test(firstName.value)) {
+    return firstName.value;
+  }
 }
 
 // Fonction qui vérifie le contenu du Nom
@@ -122,19 +129,26 @@ export function testLastName() {
   // On accepte les minuscules, majuscules, les espaces et les tirets, chaine entre 3 et 20 caractères
   let regexLastName = /^[a-zA-Z\s-]{3,20}$/;
 
-  lastName.addEventListener("input", function () {
-    // Si la regex est valide le message de vérifcation est vide
-    if (regexLastName.test(lastName.value)) {
-      let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
-      firstNameErrorMsg.innerText = "";
+  lastName.addEventListener("change", function () {
+    // Si les conditions sont valides == OK
+    if (
+      regexLastName.test(lastName.value) &&
+      lastName.value.length > 3 &&
+      lastName.value.length < 20 &&
+      lastName.value !== ""
+    ) {
+      return true;
       // Sinon on avertit l'utilisateur
     } else {
       let lastNameErrorMsg = document.getElementById("lastNameErrorMsg");
       lastNameErrorMsg.innerText =
         "Merci de vérifier votre nom, 3 caractères minimum requis avec des lettres uniquement";
+      return;
     }
   });
-  return lastName.value;
+  if (regexLastName.test(lastName.value)) {
+    return lastName.value;
+  }
 }
 
 // Fonction qui vérifie le contenu de l'adresse
@@ -144,19 +158,21 @@ export function testAddress() {
   // On accepte les minuscules, majuscules, les chiffres, les espaces, les tirets et les apostrophes
   let regexAddress = /^[a-z'A-Z'0-9-\s]+$/;
 
-  address.addEventListener("input", function () {
-    // Si la regex est valide le message de vérifcation est vide
-    if (regexAddress.test(address.value)) {
-      let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
-      firstNameErrorMsg.innerText = "";
+  address.addEventListener("change", function () {
+    // Si les conditions sont valides == OK
+    if (regexAddress.test(address.value) && address.value !== "") {
+      return true;
       // Sinon on avertit l'utilisateur
     } else {
       let addressErrorMsg = document.getElementById("addressErrorMsg");
       addressErrorMsg.innerText =
         "Merci de vérifier votre addresse, caractères alphanumériques autorisés";
+      return;
     }
   });
-  return address.value;
+  if (regexAddress.test(address.value)) {
+    return address.value;
+  }
 }
 
 // Fonction qui vérifie le contenu de la ville
@@ -166,19 +182,21 @@ export function testCity() {
   // On accepte les minuscules, majuscules, les chiffres, les espaces, les tirets
   let regexCity = /^[a-zA-Z0-9-\s]+$/;
 
-  city.addEventListener("input", function () {
-    // Si la regex est valide le message de vérifcation est vide
-    if (regexCity.test(city.value)) {
-      let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
-      firstNameErrorMsg.innerText = "";
+  city.addEventListener("change", function () {
+    // Si les conditions sont valides == OK
+    if (regexCity.test(city.value) && city.value !== "") {
+      return true;
       // Sinon on avertit l'utilisateur
     } else {
       let cityErrorMsg = document.getElementById("cityErrorMsg");
       cityErrorMsg.innerText =
         "Merci de vérifier votre ville, 3 caractères minimum requis avec des lettres uniquement";
+      return;
     }
   });
-  return city.value;
+  if (regexCity.test(city.value)) {
+    return city.value;
+  }
 }
 
 // Fonction qui vérifie le contenu de l'email
@@ -188,16 +206,18 @@ export function testEmail() {
   // 1er groupe (min,maj,chiffres,point,underscore,tiret), 2eme groupe(idem), 3eme groupe(min,maj entre 2 et 6 caractères pour les extensions de domaines)
   let regexEmail = /^([a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/;
 
-  email.addEventListener("input", function () {
-    // Si la regex est valide le message de vérifcation est vide
-    if (regexEmail.test(email.value)) {
-      let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
-      firstNameErrorMsg.innerText = "";
+  email.addEventListener("change", function () {
+    // Si les conditions sont valides == OK
+    if (regexEmail.test(email.value) && email.value !== "") {
+      return true;
       // Sinon on avertit l'utilisateur
     } else {
       let emailErrorMsg = document.getElementById("emailErrorMsg");
       emailErrorMsg.innerText = "Erreur email non valide !";
+      return;
     }
   });
-  return email.value;
+  if (regexEmail.test(email.value)) {
+    return email.value;
+  }
 }
