@@ -104,11 +104,13 @@ export function testFirstName() {
     // Si les conditions sont valides == OK
     if (
       regexFirstName.test(firstName.value) &&
-      firstName.value.length > 3 &&
+      firstName.value.length >= 3 &&
       firstName.value.length < 20 &&
       firstName.value !== ""
     ) {
-      return firstName.value;
+      let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
+      firstNameErrorMsg.innerText =
+        "";
       // Sinon on avertit l'utilisateur
     } else {
       let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
@@ -133,11 +135,13 @@ export function testLastName() {
     // Si les conditions sont valides == OK
     if (
       regexLastName.test(lastName.value) &&
-      lastName.value.length > 3 &&
+      lastName.value.length >= 3 &&
       lastName.value.length < 20 &&
       lastName.value !== ""
     ) {
-      return true;
+      let lastNameErrorMsg = document.getElementById("lastNameErrorMsg");
+      lastNameErrorMsg.innerText =
+        "";
       // Sinon on avertit l'utilisateur
     } else {
       let lastNameErrorMsg = document.getElementById("lastNameErrorMsg");
@@ -161,7 +165,9 @@ export function testAddress() {
   address.addEventListener("change", function () {
     // Si les conditions sont valides == OK
     if (regexAddress.test(address.value) && address.value !== "") {
-      return true;
+      let addressErrorMsg = document.getElementById("addressErrorMsg");
+      addressErrorMsg.innerText =
+        "";
       // Sinon on avertit l'utilisateur
     } else {
       let addressErrorMsg = document.getElementById("addressErrorMsg");
@@ -185,7 +191,9 @@ export function testCity() {
   city.addEventListener("change", function () {
     // Si les conditions sont valides == OK
     if (regexCity.test(city.value) && city.value !== "") {
-      return true;
+      let cityErrorMsg = document.getElementById("cityErrorMsg");
+      cityErrorMsg.innerText =
+        "";
       // Sinon on avertit l'utilisateur
     } else {
       let cityErrorMsg = document.getElementById("cityErrorMsg");
@@ -209,7 +217,8 @@ export function testEmail() {
   email.addEventListener("change", function () {
     // Si les conditions sont valides == OK
     if (regexEmail.test(email.value) && email.value !== "") {
-      return true;
+      let emailErrorMsg = document.getElementById("emailErrorMsg");
+      emailErrorMsg.innerText = "";
       // Sinon on avertit l'utilisateur
     } else {
       let emailErrorMsg = document.getElementById("emailErrorMsg");
